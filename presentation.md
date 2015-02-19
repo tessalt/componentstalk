@@ -179,6 +179,7 @@ ___
 - data binding
 - styling
 - But as a developer using the input tag, *you don't need to know or care about any of that*. 
+- declarative code is about hiding the implementation details where you just need an interface
 
 ---
 
@@ -199,6 +200,8 @@ $("#launchSalesModal").on("click", function() {
 ^
 - When we need some custom UI, we do some weird stuff:
 - This is about as far from a declarative API as we can get. 
+- implementation details are partly hidden in the jQuery library
+- but the actual "wtf is going on here" is split up between the HTML, the DOM querying, the event listener, and the library config
 
 ---
 
@@ -236,10 +239,12 @@ So what does `$("#launchSalesModal")` even do?
 # We think our HTML should be dumb, but then we have to do all sorts of shit in JS to make up for it
 
 ^ 
+- like DOM querying and shit
 - this makes our code very brittle and tightly-coupled
 - no modularity
 - relies on the dumb markup being a specific way
 - hard to read and maintain
+- implementation details all over the place
 - unnecessarily imperative
 
 ___
@@ -318,11 +323,18 @@ I have a lot of things to say about this
 
 ---
 
+![fit](https://s3.amazonaws.com/f.cl.ly/items/3t251B3I0M3D1Y1E2B1Z/DA8FA0E6-A927-409D-A9FA-D12A0D786266.jpg)
+
+---
+
 # If we're ok with this then...
 
 ![inline](https://s3.amazonaws.com/f.cl.ly/items/1M0L2J1P2d0A391j3e3Z/click.jpg)
 
 # ... let's slide down this slippery slope
+
+^ 
+- and even if you're not ok with this, you don't really have a choice...
 
 ---
 
@@ -403,6 +415,30 @@ $("#tabs").tabs();
 - composable
 - scoped
 
+---
+
+```html
+<template id="template">
+  <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+</template>
+
+<script>
+var proto = Object.create(HTMLElement.prototype, {
+  createdCallback: {
+    value: function() {
+      var t = document.querySelector('#template');
+      var clone = document.importNode(t.content, true);
+      this.createShadowRoot().appendChild(clone);
+    }
+  }
+});
+document.registerElement('x-foo', {prototype: proto});
+</script>
+```
+
+^ 
+- hides implementation details
+
 ___
 
 # OKAY I WANT SOME WEB COMPONENTS GIVE ME SOME WEB COMPONENTS
@@ -429,6 +465,16 @@ There's some options though
 - but components aren't always enough
 
 ^ tom dale's talk https://www.youtube.com/watch?v=AK6xMvq4E5Q
+
+---
+
+```html
+<polymer-element name="x-foo">
+  <template id="template">
+    <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+  </template>
+</polymer-element>
+```
 
 ---
 
@@ -539,7 +585,6 @@ React.createClass({
 - we don't have to write a lot of markup
 - minimal repetition
 - easy to share code between projects
-___
 
 [Read about Lonely Planet's Rizzo (a similar solution)](http://engineering.lonelyplanet.com/2014/05/18/a-maintainable-styleguide.html)
 
@@ -552,7 +597,6 @@ ___
 - Angular is doing it
 - Ember is doing it
 - React is doing it
-- Server-side templates can do it
 - The browsers themselves are doing it
 
 ---
