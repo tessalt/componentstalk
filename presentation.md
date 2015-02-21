@@ -1,5 +1,5 @@
-# [fit]Components are the future of the web.
-## [fit]It's going to be okay. 
+# Components are the future of the web.
+## It's going to be okay. 
 ![](https://s3.amazonaws.com/f.cl.ly/items/1V3Q3r0X3B2p2o1m0O0G/VbuO4SHCyIkkyLTh.jpg)
 
 ---
@@ -54,7 +54,7 @@ In Toronto.
 ```
 
 ---
-![fit](https://s3.amazonaws.com/f.cl.ly/items/3n2g1k19401I1k2I0b3c/Untitled-1.jpg)
+!(https://s3.amazonaws.com/f.cl.ly/items/3n2g1k19401I1k2I0b3c/Untitled-1.jpg)
 ___
 
 ^ then we decided that inline event handlers along with inline styles were a bad idea, because markup is precious and we shouldn't contaminate it. 
@@ -92,7 +92,7 @@ and we called it **Best Practices**
 
 ---
 
-# [fit] ... We did it again. 
+#  ... We did it again. 
 
 In the fast-changing world of JavaScript-heavy interactive web applications, these best practices haven't kept up
 
@@ -163,7 +163,7 @@ ___
 
 ---
 
-# [fit]HTML has declarative APIs
+# HTML has declarative APIs
 
 ```html
 <input type="range" min="0" max="10" step="2" value="6">
@@ -354,7 +354,7 @@ I have a lot of things to say about this
 
 ---
 
-![fit](https://s3.amazonaws.com/f.cl.ly/items/3t251B3I0M3D1Y1E2B1Z/DA8FA0E6-A927-409D-A9FA-D12A0D786266.jpg)
+!(https://s3.amazonaws.com/f.cl.ly/items/3t251B3I0M3D1Y1E2B1Z/DA8FA0E6-A927-409D-A9FA-D12A0D786266.jpg)
 
 ---
 
@@ -489,7 +489,7 @@ There's some options though
 ---
 
 ![](https://s3.amazonaws.com/f.cl.ly/items/35450O373G3s1U3q0K0W/polymer.png)
-# [fit] Polymer
+#  Polymer
 ## [www.polymer-project.org/](https://www.polymer-project.org/)
 
 ^
@@ -517,9 +517,9 @@ There's some options though
 
 ---
 
-![fit](https://lh6.googleusercontent.com/-TlY7amsfzPs/T9ZgLXXK1cI/AAAAAAABK-c/Ki-inmeYNKk/w749-h794/AngularJS-Shield-large.png)
-# [fit] Angular
-## [fit] Directives
+!(https://lh6.googleusercontent.com/-TlY7amsfzPs/T9ZgLXXK1cI/AAAAAAABK-c/Ki-inmeYNKk/w749-h794/AngularJS-Shield-large.png)
+#  Angular
+##  Directives
 
 ---
 
