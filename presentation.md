@@ -17,10 +17,6 @@ In Toronto.
 
 ---
 
-# [fit] Making web apps is hard
-
----
-
 # A romanticized and slightly inaccurate history of web apps
 
 ^
@@ -91,6 +87,7 @@ and we called it **Best Practices**
 ^ 
 - in the name of separating concerns, we thought we could use CSS unassisted by HTML to style our web pages
 - we tried to maintain a "purity" of HTML semantics and suffered for it
+- need to have knowledge of two codebases basically
 - it was a mistake
 
 ---
@@ -161,6 +158,7 @@ ___
 *Declarative* code specifies what the desired result is and lets the compiler figure out the implementation
 
 ^ 
+- abstract away the explicit process and focus on what you want to happen, not how it's done
 - or if the compiler can't figure it out, you write an API that lets you write declarative code
 
 ---
@@ -232,6 +230,20 @@ So what does `$("#launchSalesModal")` even do?
 
 ---
 
+# It gets even worse when we do things like ~data binding~
+
+```html
+<input type="text">
+<p></p>
+
+<script>
+$("input").on("keyup", function(e) {
+  $("p").text(this.value);
+});
+</script>
+
+```
+---
 # *We're writing JavaScript like we don't have control over our HTML*
 ![](https://ununsplash.imgix.net/44/MIbCzcvxQdahamZSNQ26_12082014-IMG_3526.jpg?q=75&fm=jpg&s=238b14e81cab674316e3d4a4205be060)
 
@@ -239,7 +251,7 @@ So what does `$("#launchSalesModal")` even do?
 # We think our HTML should be dumb, but then we have to do all sorts of shit in JS to make up for it
 
 ^ 
-- like DOM querying and shit
+- like DOM querying and event listening
 - this makes our code very brittle and tightly-coupled
 - no modularity
 - relies on the dumb markup being a specific way
@@ -268,6 +280,11 @@ ___
 
 # Angular's HTML made a lot of people very angry
 
+```xml
+<a href="" ng-click="archive()">archive</a>
+
+```
+
 > "I don't like how it breaks the separation between html/js/css"
 
 > "I hate the way the HTML looks"
@@ -279,6 +296,11 @@ ___
 ---
 
 ![right](http://vignette2.wikia.nocookie.net/simpsons/images/2/24/Abe_simpson.gif/revision/latest?cb=20130203191514)
+
+```xml
+<a href="" ng-click="archive()">archive</a>
+
+```
 
 # OMG separation of concerns
 
@@ -294,9 +316,14 @@ I have a lot of things to say about this
 
 ---
 
+```xml
+<a href="" ng-click="archive()">archive</a>
+
+```
+
 # OMG inline event handlers
 
-- get over it
+- it's ok
 
 ![right](http://i.imgur.com/3sxE5Vr.png)
 
@@ -309,6 +336,10 @@ I have a lot of things to say about this
 
 ---
 
+```xml
+<a href="" ng-click="archive()">archive</a>
+
+```
 
 # But it looks bad and you should feel bad
 
@@ -434,6 +465,8 @@ var proto = Object.create(HTMLElement.prototype, {
 });
 document.registerElement('x-foo', {prototype: proto});
 </script>
+
+<x-foo></x-foo>
 ```
 
 ^ 
@@ -474,6 +507,8 @@ There's some options though
     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
   </template>
 </polymer-element>
+
+<x-foo></x-foo>
 ```
 
 ---
@@ -485,6 +520,17 @@ There's some options though
 ![fit](https://lh6.googleusercontent.com/-TlY7amsfzPs/T9ZgLXXK1cI/AAAAAAABK-c/Ki-inmeYNKk/w749-h794/AngularJS-Shield-large.png)
 # [fit] Angular
 ## [fit] Directives
+
+---
+
+```html
+<tabset>
+  <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active">
+    {{tab.content}}
+  </tab> 
+</tabset>
+
+```
 
 ^
 - let you create new HTML elements but don't leverage the native browser APIs 
@@ -500,15 +546,7 @@ Angular 2.0 will support Web Components out of the box. Not sure what this will 
 
 ---
 
-![original 90%](http://upload.wikimedia.org/wikipedia/en/6/69/Ember.js_Logo_and_Mascot.png)
 # Ember COMPONENTS
-
-^
-- try to adhere closely to the Web Components spec as possible
-- they're hoping that once the native specs are widely available, you'll have an easy update path to migrate your components
-- Ember components look different from the native ones because handlebars. Basically just swap the angle brackets for double curly braces mostly. 
-
----
 
 ```js
 {{demo-tabs}}
@@ -517,13 +555,19 @@ Angular 2.0 will support Web Components out of the box. Not sure what this will 
 {{/demo-tabs}}
 ```
 
+^
+- try to adhere closely to the Web Components spec as possible
+- they're hoping that once the native specs are widely available, you'll have an easy update path to migrate your components
+- Ember components look different from the native ones because handlebars. Basically just swap the angle brackets for double curly braces mostly. 
+
+![inline](http://upload.wikimedia.org/wikipedia/en/6/69/Ember.js_Logo_and_Mascot.png)
+
+
 ---
 
 # Ember + Web Components + the future
 
 - Ember 2.0 makes components much more important
-
->> "The first bet was on open standards: JavaScript modules, promises and Web Components"
 
 ^
 - like, one of the central abstractions
@@ -570,29 +614,21 @@ React.createClass({
 
 ---
 
-# We can bring these abstractions with us outside of JavaScript-land
+# Even if you don't buy 100% into the components thing, you can still ease your pain with declarative data-binding
 
-```ruby
-<%= ui_module "tab", {
-  title: "Tab 1",
-  content: "Tab 1 content"
-  } %>
+- knockout.js
+- twine.js
 
+```html
+<input type="text" bind="color" value="blue">
+<strong bind="color"></strong>
 ```
-^
-- Shopify is a Rails app ![](https://s3.amazonaws.com/f.cl.ly/items/062q2J1C3J0K0L2k111z/logo.png)
-- We have a helper that lets us create ui modules with declarative APIs which we can use in our erb templates
-- we don't have to write a lot of markup
-- minimal repetition
-- easy to share code between projects
-
-[Read about Lonely Planet's Rizzo (a similar solution)](http://engineering.lonelyplanet.com/2014/05/18/a-maintainable-styleguide.html)
 
 ---
 
 # In Summary
 
-## Componentization of the web is coming whether you like it or not
+## the "Declarative renaissance" of the web is coming whether you like it or not
 
 - Angular is doing it
 - Ember is doing it
@@ -621,4 +657,23 @@ React.createClass({
 
 ---
 
-# You're going to dirty up your HTML and you're going to like it
+# You're going to "pollute" your HTML and you're going to like it
+
+---
+# Links
+
+- [Declarative vs imperative programming](http://latentflip.com/imperative-vs-declarative/)
+- [Our best practices are killing us](http://www.slideshare.net/stubbornella/our-best-practices-are-killing-us)
+- [The web's declarative, composable future](http://addyosmani.com/blog/the-webs-declarative-composable-future/)
+- [Angular.js](https://angularjs.org/)
+- [Angular 2.0](http://ng-learn.org/2014/03/AngularJS-2-Status-Preview/)
+- [Ember.js](http://emberjs.com/)
+- [Ember road to 2.0](https://github.com/emberjs/rfcs/pull/15)
+
+---
+
+- [React.js](http://facebook.github.io/react/)
+- [Polymer](https://www.polymer-project.org/)
+- [Web Components](http://webcomponents.org/)
+- [Knockout.js](http://knockoutjs.com/)
+- [Twine.js](http://shopify.github.io/twine/)
