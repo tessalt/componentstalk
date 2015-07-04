@@ -4,19 +4,6 @@
 
 ---
 
-![left fit](https://s3.amazonaws.com/f.cl.ly/items/3l2b3J3R3h3n0C3e2v1r/Canada_blank_map3.png)
-
-Tessa Thornton
-
-Front-end developer.
-
-I work at Shopify.
-In Toronto. 
-
-@tessthornton
-
----
-
 # A romanticized and slightly inaccurate history of web apps
 
 ^
@@ -54,7 +41,7 @@ In Toronto.
 ```
 
 ---
-!(https://s3.amazonaws.com/f.cl.ly/items/3n2g1k19401I1k2I0b3c/Untitled-1.jpg)
+![fit](https://s3.amazonaws.com/f.cl.ly/items/3n2g1k19401I1k2I0b3c/Untitled-1.jpg)
 ___
 
 ^ then we decided that inline event handlers along with inline styles were a bad idea, because markup is precious and we shouldn't contaminate it. 
@@ -72,7 +59,10 @@ and so it was written
 <button id="formSubmitButton">Submit</button>
 
 <script>
-$("#formSubmitButton").click(submitForm);
+$("#formSubmitButton").click(function () {
+  $.ajaxStuff();
+  return false;
+});
 </script>
 ```
 
@@ -163,6 +153,17 @@ ___
 
 ---
 
+# Example: SQL is everybody's favourite declarative language
+
+`SELECT * FROM students WHERE id = 5`
+
+^
+- There's a for loop underneath looping through each row in the table comparing ids, but we don't need to worry about that
+- declarative programming lets us separate the process of stating the problem we're trying to solve with the process of solving it
+- lets focus on our own application
+
+---
+
 # HTML has declarative APIs
 
 ```html
@@ -185,19 +186,18 @@ ___
 
 
 ```html
-<button id="launchSalesModal">Launch Modal</button>
+<a href="#salesModal" class="launchModal">Launch Modal</a>
 
 <script>
-$("#launchSalesModal").on("click", function() {
- library.launchModal({
-    el: "#salesModal"
+$('.launchModal').on('click', function () {
+  someLibrary.openModal({
+    content: $($(this).attr('href'))
   });
 });
 </script>
 ```
 ^
 - When we need some custom UI, we do some weird stuff:
-- This is about as far from a declarative API as we can get. 
 - implementation details are partly hidden in the jQuery library
 - but the actual "wtf is going on here" is split up between the HTML, the DOM querying, the event listener, and the library config
 
@@ -206,11 +206,11 @@ $("#launchSalesModal").on("click", function() {
 Like, *what is this even*: 
 
 ```html
-<button id="launchSalesModal">Launch Modal</button>
+<a href="#salesModal" class="launchModal">Launch Modal</a>
 ````
 
 ^
-- All we can actually infer is that it's a button that may or may not do anything. We can make guesses based on the ID, but that's just coincidence. 
+- All we can actually infer is that it's a link that may or may not do anything. We can make guesses based on the class, but that's just coincidence. 
 
 ---
 
@@ -218,31 +218,16 @@ What about this bit of JavaScript:
 
 ```html
 <script>
-$("#launchSalesModal").on("click", function() {});
+$(".launchModal").on("click", function() {});
 </script>
 ```
 
-So what does `$("#launchSalesModal")` even do? 
+So what does `$(".launchModal")` even do? 
 
 ^ 
 - Go into that big DOM mess we've made, and find this element that we just added. -
 - Go look for it, even though we already know where it is. Because we put it there.
 
----
-
-# It gets even worse when we do things like ~data binding~
-
-```html
-<input type="text">
-<p></p>
-
-<script>
-$("input").on("keyup", function(e) {
-  $("p").text(this.value);
-});
-</script>
-
-```
 ---
 # *We're writing JavaScript like we don't have control over our HTML*
 ![](https://ununsplash.imgix.net/44/MIbCzcvxQdahamZSNQ26_12082014-IMG_3526.jpg?q=75&fm=jpg&s=238b14e81cab674316e3d4a4205be060)
@@ -254,7 +239,7 @@ $("input").on("keyup", function(e) {
 - like DOM querying and event listening
 - this makes our code very brittle and tightly-coupled
 - no modularity
-- relies on the dumb markup being a specific way
+- relies on the dumb markup being dumb in a specific way
 - hard to read and maintain
 - implementation details all over the place
 - unnecessarily imperative
@@ -311,7 +296,7 @@ I have a lot of things to say about this
 - declarative attribtues on HTML5 tags
 - how is this different than "action" in a form tag
 - your content isn't in your HTML for web apps anyways
-- you need to glue your HTML and JS together somewhere and querying the dom sucks
+- you need to glue your HTML and JS together *somewhere* and querying the dom sucks
 - could just as easily say OMG YOU'RE POLLUTING MY JS WITH DOM
 
 ---
@@ -354,7 +339,7 @@ I have a lot of things to say about this
 
 ---
 
-!(https://s3.amazonaws.com/f.cl.ly/items/3t251B3I0M3D1Y1E2B1Z/DA8FA0E6-A927-409D-A9FA-D12A0D786266.jpg)
+![fit](https://s3.amazonaws.com/f.cl.ly/items/3t251B3I0M3D1Y1E2B1Z/DA8FA0E6-A927-409D-A9FA-D12A0D786266.jpg)
 
 ---
 
@@ -369,13 +354,13 @@ I have a lot of things to say about this
 
 ---
 
-# What if you could make up your own declarative attributes?
+# Make up your own declarative attributes
 
 ```html
 <button onClick="openModoal()" modal-target="#salesModal">Open</button>
 ```
 
-# WHAT IF YOU COULD MAKE UP YOUR OWN DECLARATIVE ELEMENTS??
+# Make up your own declarative elements
 
 ```html
 <modal-trigger-button target="#salesModal">Open</modal-trigger-button>
@@ -428,6 +413,7 @@ $("#tabs").tabs();
 - now copy and paste all that HTML wherever you want some tabs
 - try having multiple copies on one page! (This is where the *encapsulation* offered by components is cool)
 - none of that HTML is particularly meaningful
+- wtf is .tabs
 
 ---
 
@@ -471,6 +457,25 @@ document.registerElement('x-foo', {prototype: proto});
 
 ^ 
 - hides implementation details
+
+---
+
+# Composability is a big thing
+
+```html 
+
+<fancy-toggle active={{drawerVisible}}>Open Drawer</fancy-toggle>
+
+<animated-drawer shown={{drawerVisible}}>
+  Things in a drawer
+</animated-drawer>
+
+```
+
+^
+- these two components could be from totally different sources
+- what matters to you is the public API
+- this is a lot better than gluing together jQuery libraries
 
 ___
 
@@ -517,11 +522,9 @@ There's some options though
 
 ---
 
-!(https://lh6.googleusercontent.com/-TlY7amsfzPs/T9ZgLXXK1cI/AAAAAAABK-c/Ki-inmeYNKk/w749-h794/AngularJS-Shield-large.png)
 #  Angular
 ##  Directives
-
----
+  
 
 ```html
 <tabset>
@@ -532,17 +535,14 @@ There's some options though
 
 ```
 
+![inline](https://lh6.googleusercontent.com/-TlY7amsfzPs/T9ZgLXXK1cI/AAAAAAABK-c/Ki-inmeYNKk/w749-h794/AngularJS-Shield-large.png)
+
 ^
 - let you create new HTML elements but don't leverage the native browser APIs 
 - Implementation-wise, would look pretty much the same as Web Components example
 - Defining a directive is a bit different than defining a web component, it's a *little* more involved
 - but you get the same declarative API niceness and scope management and reusability 
-
----
-
-# Angular + Web Components + the future
-
-Angular 2.0 will support Web Components out of the box. Not sure what this will look like yet.
+- Angular 2.0 will support Web Components out of the box. Not sure what this will look like yet.
 
 ---
 
@@ -559,17 +559,7 @@ Angular 2.0 will support Web Components out of the box. Not sure what this will 
 - try to adhere closely to the Web Components spec as possible
 - they're hoping that once the native specs are widely available, you'll have an easy update path to migrate your components
 - Ember components look different from the native ones because handlebars. Basically just swap the angle brackets for double curly braces mostly. 
-
-![inline](http://upload.wikimedia.org/wikipedia/en/6/69/Ember.js_Logo_and_Mascot.png)
-
-
----
-
-# Ember + Web Components + the future
-
 - Ember 2.0 makes components much more important
-
-^
 - like, one of the central abstractions
 - HTMLbars will make the syntax for components look the same as the native spec (Ember 1.11)
 
@@ -614,15 +604,24 @@ React.createClass({
 
 ---
 
-# Even if you don't buy 100% into the components thing, you can still ease your pain with declarative data-binding
+# The JavaScripts of the future
+![left](https://s3.amazonaws.com/f.cl.ly/items/3w2w2W3h0K0v0Q3g2v10/tumblr_mzvktpA8Qf1sh4q2jo1_500.jpg)
 
-- knockout.js
-- twine.js
+- rather than going back and forth between dumb but specific markup and JS with a lot of DOM querying
+- you'll be going back and forth between wiring together components and tweaking their implementations
 
-```html
-<input type="text" bind="color" value="blue">
-<strong bind="color"></strong>
-```
+---
+
+# The limits of declarative programming
+
+- A lot of this is big wins for productivity and developer happiness
+- but if declarative programming was perfect we wouldn't still be writing C et al
+- sometimes you need to tweak the implementations
+
+^ 
+- example: performance tuning in SQL
+- most of the time it does the right thing
+- but sometimes you need to tweak the implementation because you know better
 
 ---
 
@@ -675,5 +674,3 @@ React.createClass({
 - [React.js](http://facebook.github.io/react/)
 - [Polymer](https://www.polymer-project.org/)
 - [Web Components](http://webcomponents.org/)
-- [Knockout.js](http://knockoutjs.com/)
-- [Twine.js](http://shopify.github.io/twine/)

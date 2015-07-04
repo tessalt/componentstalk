@@ -1,0 +1,12 @@
+- more and useful examples
+- actually re-implement the same component in jquery / angular / ember / polymer / react
+  - something with data binding
+  - like a shopping cart thingy? 
+- clarify voice and argument a bit
+- theres all sorts of other crap going on on your client side, but when it comes to building interactive UI components, we're going to be building components
+- that's just the future of the web ok
+- maybe move the declarative vs. imperative to the beginning?
+- avoid discussing advantages/disadvantages to each
+- emphasize what they have in common, not what's different
+- so maybe just re-implement the module from jquery to x and then briefly show the other ones
+- discuss interoperability of components
