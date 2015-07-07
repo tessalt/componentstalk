@@ -27,11 +27,18 @@
 </form>
 ```
 
+^
+- adding interactivity to a web page was a fairly simple process: add in a form tag to synchronously collect data,
+then send that data off to your server
+- the forms were easy and obvious to configure
+- easy to tell what's going on
+
 ---
 
 # Then JavaScript grew up
 
 ^ heyyyy we can do cool stuff now
+- ajax lets us communicate with our server async so we can have interfaces that are less obviously just forms and links
 
 ```html
 <form>
@@ -42,9 +49,10 @@
 
 ---
 ![fit](https://s3.amazonaws.com/f.cl.ly/items/3n2g1k19401I1k2I0b3c/Untitled-1.jpg)
-___
 
 ^ then we decided that inline event handlers along with inline styles were a bad idea, because markup is precious and we shouldn't contaminate it. 
+
+---
 
 # Strict separation of concerns!
 - HTML is for **content**
@@ -67,6 +75,9 @@ $("#formSubmitButton").click(function () {
 ```
 
 and we called it **Best Practices**
+
+^ 
+- we moved all that behaviour out of our HTML and into some jqueryish javascript
 
 ---
 
@@ -134,6 +145,11 @@ Is this content? Looks kind of like logic and behaviour
   <option value="BC">British Columbia</option>
 </select>
 ````
+
+^ 
+- these represent more than just content
+- there's plenty of behaviour and logic here declared inline
+
 ___
 
 # Time out: What's a declarative API, and why do I want one? 
@@ -160,7 +176,7 @@ ___
 ^
 - There's a for loop underneath looping through each row in the table comparing ids, but we don't need to worry about that
 - declarative programming lets us separate the process of stating the problem we're trying to solve with the process of solving it
-- lets focus on our own application
+- lets focus on our own application and not low-level problems that have already been solved
 
 ---
 
@@ -179,6 +195,7 @@ ___
 - styling
 - But as a developer using the input tag, *you don't need to know or care about any of that*. 
 - declarative code is about hiding the implementation details where you just need an interface
+- gives you a contract of inputs and outputs
 
 ---
 
@@ -293,11 +310,11 @@ I have a lot of things to say about this
 
 ^ 
 - like I said, the separation doesn't hold
-- declarative attribtues on HTML5 tags
-- how is this different than "action" in a form tag
-- your content isn't in your HTML for web apps anyways
+- declarative attribtues on HTML5 tags (or "action" in a form tag)
+- your content isn't in your HTML for web apps anyways (json etc)
 - you need to glue your HTML and JS together *somewhere* and querying the dom sucks
 - could just as easily say OMG YOU'RE POLLUTING MY JS WITH DOM
+- we can separate our concerns more intelligently than this
 
 ---
 
